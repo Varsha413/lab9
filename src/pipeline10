@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('Trigger Freestyle Project') {
+            steps {
+                echo "Triggering Java-Freestyle-Project..."
+                script {
+                    def buildInfo = build job: 'Junit Testing Project', wait: true
+
+                    echo "Freestyle Build Number: ${buildInfo.number}"
+                    echo "Freestyle Build Status: ${buildInfo.result}"
+
+                    if (buildInfo.result != 'SUCCESS') {
+                        error "Freestyle project failed!"
+                    }                }            }        }
+        stage('Result') {
+            steps {
+                echo "Git Fetch + Build + Test executed successfully!"
+                echo "Check Java-Freestyle-Project for JUnit results."
+            }        }    }	     }
+
